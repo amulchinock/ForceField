@@ -2,33 +2,12 @@
 require_once "helper_classes.php";
 
 /*
-*	ForceField - A simple PHP class for generating form fields and components.
+*	ForceField - A simple PHP framework for quickly and efficiently generating HTML elements and attributes in PHP.
 *	Author: Alex Mulchinock
 *	www.github.com/amulchinock
 */
 class GlobalAttribute {
-	
 	/* Can be used on any HTML element. As per W3C documentation. */
-	
-	/*
-	$accessKey;
-	$class;
-	$contentEditable;
-	$contextMenu;
-	$dataName;
-	$dataValue;
-	$dir;
-	$draggable;
-	$dropZone;
-	$hidden;
-	$id;
-	$lang;
-	$spellCheck;
-	$style;
-	$tabIndex;
-	$title;
-	$translate;
-	*/
 	
 	public static function accessKey($key = NULL) {
 		if (!isset($key)) {
@@ -125,119 +104,171 @@ class GlobalAttribute {
 		}
 	}
 	
-}
-
-
-class FormHTML {
-	
-	/*
-	 * Converts array values into <option></option> fields.
-	 * Do not directly hook into this function! Go via select() 
-	 */
-	 
-	private static function select_options($options = NULL) {
-		if (isset($options)) {
-			$output = "";
-			
-			foreach ($options as $option) {
-				if ($option[1] == "true") {
-					$disabled = "disabled ";
-				}
-				else {
-					$disabled = "";
-				}
-				
-				if ($option[2] !== "") {
-					$label = 'label="'.$option[2].'" ';
-				}
-				else {
-					$label = "";
-				}
-				
-				if ($option[3] == "true") {
-					$selected = "selected";
-				}
-				else {
-					$selected = "";
-				}
-				
-				$output .= '<option '.$label.'value="'.$option[4].'" '.$disabled.$selected.'>'.$option[0].'</option>';
-			}
-			
-			return $output;
+	public static function dropzone($value = NULL) {
+		if (!isset($value)) {
+			return false;
 		}
-	}
-		
-	/*
-	 * Creates a <select></select> element.
-	 * 
-	 * $options					-	Options available for the user to choose, stored as an array.
-	 * $field_name (optional)	-	The name you wish to assign to the element in the DOM.
-	 * $field_id (optional)		-	The ID you wish to assign to the element in the DOM.
-	 * 
-	 * Passes $options to select_options() for parsing.
-	 * 
-	 */
-	 
-	public static function select($options = NULL, $field_name = NULL, $field_id = NULL, $auto_focus = NULL, $disabled = NULL, $form = NULL, $multiple = NULL, $required = NULL, $size = NULL) {
-		$pre = '<select';
-		$name = ' name="'.$field_name.'"';
-		$id = ' id="'.$field_id.'"';
-		$end = '>';
-		$post = "</select>";
-		
-		if(isset($options)) {
-			if(isset($field_name) && isset($field_id)) {
-				return $pre.$name.$id.$end.FormHTML::select_options($options).$post;
-			}
-			elseif (!isset($field_name) && isset($field_id)) {
-				return $pre.$id.$end.FormHTML::select_options($options).$post;
-			}
-			elseif (isset($field_name) && !isset($field_id)) {
-				return $pre.$name.$end.FormHTML::select_options($options).$post;
-			}
-			elseif (!isset($field_name) && !isset($field_id)) {
-				return $pre.$end.FormHTML::select_options($options).$post;
-			}
-			else {
-				return "Error. Please check code.";
-			}
+		elseif ($value == "copy" or $value == "move" or $value == "link") {
+			return 'dropzone = "'.$value.'" ';
 		}
-		
-	}
-	
-	/*
-	 * Creates a textbox type <input> element.
-	 * 
-	 * $field_name (optional)	-	The name you wish to assign to the element in the DOM.
-	 * $field_id (optional)		-	The ID you wish to assign to the element in the DOM.
-	 * $placeholder (optional)	-	The placholder text you wish to assign to the element.
-	 */
-	
-	public static function textbox($field_name = NULL, $field_id = NULL, $placeholder = NULL) {
-		$pre = '<input type="text"';
-		$name = ' name="'.$field_name.'"';
-		$id = ' id="'.$field_id.'"';
-		$ph = ' placeholder="'.$placeholder.'"';
-		$end = '>';
-		$post = "";
-		
-		if(isset($field_name) && isset($field_id)) {
-			return $pre.$name.$id.$ph.$end;
-		}
-		elseif (!isset($field_name) && isset($field_id)) {
-			return $pre.$id.$ph.$end;
-		}
-		elseif (isset($field_name) && !isset($field_id)) {
-			return $pre.$name.$ph.$end;
-		}
-		elseif (!isset($field_name) && !isset($field_id)) {
-			return $pre.$ph.$end;
+		elseif ($value == "help") {
+			return Helper::globalAttribute("http://www.w3schools.com/tags/att_global_dropzone.asp","dropzone");
 		}
 		else {
-			return "Error. Please check code.";
+			return false;
 		}
 	}
+	
+	public static function hidden($value = NULL) {
+		if (!isset($value)) {
+			return 'hidden ';
+		}
+		elseif ($value == "help") {
+			return Helper::globalAttribute("http://www.w3schools.com/tags/att_global_hidden.asp","hidden");
+		}
+		else {
+			return false;
+		}
+	}
+	
+	public static function id($value = NULL) {
+		if (!isset($value)) {
+			return false;
+		}
+		elseif ($value == "help") {
+			return Helper::globalAttribute("http://www.w3schools.com/tags/att_global_id.asp","id");
+		}
+		else {
+			return 'id = "'.$value.'" ';
+		}
+	}
+	
+	public static function lang($value) {
+		if (!isset($value)) {
+			return false;
+		}
+		elseif ($value == "help") {
+			return Helper::globalAttribute("http://www.w3schools.com/tags/att_global_lang.asp","lang");
+		}
+		else {
+			if (Resources::ISOExists($value)) {
+				return 'lang="'.$value.'" ';
+			}
+			else {
+				return false;
+			}
+		}
+	}
+	
+	public static function spellcheck($value = NULL) {
+		if (!isset($value)) {
+			return false;
+		}
+		elseif ($value = "true" or $value = "false") {
+			return 'spellcheck = "'.$value.'" ';
+		}
+		elseif ($value = "help") {
+			return Helper::globalAttribute("http://www.w3schools.com/tags/att_global_spellcheck.asp", "spellcheck");
+		}
+		else {
+			return false;
+		}
+	}
+	
+	public static function style($value) {
+		if (!isset($value)) {
+			return false;
+		}
+		elseif ($value == "help") {
+			return Helper::globalAttribute("http://www.w3schools.com/tags/att_global_style.asp", "style");
+		}
+		else {
+			return 'style = "'.$value.'" ';
+		}
+	}
+	
+	public static function tabindex($value = NULL) {
+		if (!isset($value)) {
+			return false;
+		}
+		elseif ($value == "help") {
+			return Helper::globalAttribute("http://www.w3schools.com/tags/att_global_tabindex.asp", "tabindex");
+		}
+		elseif (is_numeric($value)) {
+			return 'tabindex = "'.$value.'" ';
+		}
+		else {
+			return false;
+		}
+	}
+	
+	public static function title($value = NULL) {
+		if (!isset($value)) {
+			return false;
+		}
+		elseif ($value == "help") {
+			return Helper::globalAttribute("http://www.w3schools.com/tags/att_global_title.asp", "title");
+		}
+		else {
+			return 'title = "'.$value.'" ';
+		}
+	}
+	
+	public static function translate($value) {
+		if (!isset($value)) {
+			return false;
+		}
+		elseif ($value == "true" or $value == "false") {
+			switch($value) {
+				case "true":
+				return 'translate = "yes" ';
+				break;
+				
+				case "false":
+				return 'translate = "no" ';
+				break;
+			}
+		}
+		elseif ($value == "yes" or $value == "no") {
+			return 'translate = "'.$value.'" ';
+		}
+		elseif ($value == "help") {
+			return Helper::globalAttribute("http://www.w3schools.com/tags/att_global_translate.asp","title");
+		}
+		else {
+			return false;
+		}
+	}
+	
+}
+
+class HTMLTags {
+	/*	HTML Tags 	*/
+	
+	public static function comment($comment) {
+		if (!isset($comment)) {
+			return false;
+		}
+		elseif ($comment == "help") {
+			return Helper::HTMLTags("http://www.w3schools.com/tags/tag_comment.asp", "<!-- -->");
+		}
+		else {
+			$pre = "<!-- ";
+			$post = " -->";
+			
+			return $pre.$comment.$post;
+		}
+	}
+	
+	public static function doctype($value = NULL) {
+		if (!isset($value)) {
+			return Resources::DocTypeDeclare("HTML5");
+		}
+		else {
+			return Resources::DocTypeDeclare($value);
+		}
+	}
+	
 	
 }
 
