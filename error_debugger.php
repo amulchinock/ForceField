@@ -1,4 +1,13 @@
 <?php
+/*
+*	Credit goes to m4dm4x1337 on StackOverflow for originally posting this script (seen here: http://stackoverflow.com/questions/1475297/phps-white-screen-of-death)
+*	I'm unsure as to whether he/she wrote this themselves or whether they lifted it out from an existing application, as they say "I copied and pasted this from my own cms without testing it..".
+*	
+*	If you are the original author of this script- and would like it removed from this (open source) project, please let me know. It's been included to help with error debugging on hastily configured local Apache
+*	installations, and nothing more. Likewise- if you would like to keep it included to help other developers, that's fine too :)
+*/
+
+
 // ----------------------------------------------------------------------------------------------------
 // - Display Errors
 // ----------------------------------------------------------------------------------------------------
