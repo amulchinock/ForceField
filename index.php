@@ -1,11 +1,13 @@
 <?php
 require_once "helper_classes.php";
+require_once "html_tag_attributes.php";
 
 /*
 *	ForceField - A simple PHP framework for quickly and efficiently generating HTML elements and attributes in PHP.
 *	Author: Alex Mulchinock
 *	www.github.com/amulchinock
 */
+
 class GlobalAttribute {
 	/* Can be used on any HTML element. As per W3C documentation. */
 	
@@ -267,6 +269,10 @@ class HTMLTags {
 		else {
 			return Resources::DocTypeDeclare($value);
 		}
+	}
+	
+	public static function hyperlink() {
+		
 	}
 	
 	
