@@ -4,4 +4,4 @@ A simple PHP framework for quickly and efficiently generating HTML elements and 
 
 ## Supports
 All global attributes as defined by W3C.
-<a> Tags
+< a > Tags
