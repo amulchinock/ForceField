@@ -13,6 +13,7 @@ class a {
 	public $shape;
 	public $target;
 	public $type;
+	public $text;
 	
 	public function __construct($charset, $coords, $download, $href, $hreflang, $media, $name, $rel, $rev, $shape, $target, $type) {
 		
@@ -112,6 +113,13 @@ class a {
 		}
 		else {
 			$this->type = 'type = "'.$type.'" ';
+		}
+		
+		if ($text = "") {
+			$this->text = $href;
+		}
+		else {
+			$this->text = $text;
 		}
 	}
 	

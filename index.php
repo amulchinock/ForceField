@@ -271,8 +271,13 @@ class HTMLTags {
 		}
 	}
 	
-	public static function hyperlink() {
+	public static function hyperlink($properties = NULL) {
+		if(!isset($properties) or !is_array($properties)) {
+			return false;
+		}
+		$hyperlink = new a($properties["charset"], $properties["coords"], $properties["download"], $properties["href"], $properties["hreflang"], $properties["media"], $properties["name"], $properties["rel"], $properties["rev"], $properties["shape"], $properties["target"], $properties["type"], $properties["text"]);
 		
+		return "<a ".$hyperlink->charset.$hyperlink->coords.$hyperlink->download.$hyperlink->href.$hyperlink->hreflang.$hyperlink->media.$hyperlink->name.$hyperlink->rel.$hyperlink->rev.$hyperlink->shape.$hyperlink->target.$hyperlink->type.">".$hyperlink->text."</a>";
 	}
 	
 	
